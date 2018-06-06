@@ -17,6 +17,7 @@ class BoardsController < ApplicationController
 
   def move_up
     board = Board.find(params[:board_id])
+    #pri = Board.adjust(board)
     case board.priority
     when 2
       z = Board.find_by(priority: 1)

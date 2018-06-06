@@ -1,7 +1,21 @@
 class ListsController < ApplicationController
-  before_action :set_board
+  before_action :set_board, only: [:new, :edit, :create]
   before_action :set_list, only: [:edit, :show, :update, :destroy]
 
+  def move_up
+    @board = Board.find(params[:id])
+    list = @board.lists.find(params[:list_id])
+    List.adjust(list, 'up')
+    redirect_to boards_path
+  end
+
+  def move_down
+    @board = Board.find(params[:id])
+    list = @board.lists.find(params[:list_id])
+    List.adjust(list, 'down')
+    redirect_to boards_path
+  end
+    
   def new
     @list = @board.lists.new
   end
@@ -31,7 +45,7 @@ class ListsController < ApplicationController
 
   private
     def set_board
-      @board = Board.find(params[:board_id)]
+      @board = Board.find(params[:board_id])
     end
 
     def list_params

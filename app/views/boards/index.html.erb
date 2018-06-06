@@ -1,18 +1,26 @@
-<h1>Boards Index</h1>
+<div class='maintitle'><h1>Boards Index</h1></div>
 <div class='boards'>
   <% i = 1 %>
   <% @boards.order('priority').each do |board| %>
     <% board_class = board.name %>
     <div class="<%= board_class %>">
-      <h4><strong>Name:</strong> <%= board.title %></h4>
+      <h3><%= board.title %></h3>
       <hr/>
-      <% board.lists.order('priority').each do |list| %>
-        <p><%= list.name %> | <%= list.desc %></p>
-      <% end %>
-      <%= button_to 'Increase Priority', board_move_up_path(board), method: :put %>
-      <%= button_to 'Decrease Priority', board_move_down_path(board), method: :put %>
-      <%= button_to 'Edit Board Detail', edit_board_path(board) %>
-      <%= button_to 'Delete Board', board, method: :delete %>
+      <div class="list_wrapper">
+        <% board.lists.order('priority').each do |list| %>
+          <div class= "<%= list.name %>">
+            <%= link_to list.name, [board, list] %>
+            <%= list.desc %>
+            <hr />
+            <%= list.priority.to_i != 1 ? (button_to 'Up', board_list_move_up_path(board, list), method: :put ) : "" %>
+            <%= list.priority.to_i != 5 ? (button_to 'Down', board_list_move_down_path(board, list), method: :put ) : "" %>
+          </div>
+          <% end %>
+          <br />
+          <hr />
+          <%= board.priority != 1 ? (button_to 'Board Up', board_move_up_path(board), method: :put ) : "" %>
+          <%= board.priority != 5 ? (button_to 'Board Down', board_move_down_path(board), method: :put ) : "" %>
+      </div>
     </div>
   <% end %>
 </div>

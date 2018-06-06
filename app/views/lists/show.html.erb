@@ -1,2 +1,19 @@
-<h1>Lists#show</h1>
-<p>Find me in app/views/lists/show.html.erb</p>
+<div class="list_details">
+  <h1>List Details</h1>
+  <strong>List Title:</strong> <%= @list.desc %>
+  <br />
+  <hr />
+  <h2>Tasks</h2>
+</div>
+<div class="tas_wrapper">
+  <% @list.tasks.order('priority').each do |task| %>
+    <div class = "<%= task.name %>">
+      <p><strong>Task code: </strong><%= task.name %></p>
+      <p><strong>Task title: </strong><%= task.desc %></p>
+      <div class="tas_buttons">
+        <%= task.priority != "1" ? (button_to 'Up', list_task_up_path(@list, task), method: :put ) : "" %>
+        <%= task.priority != "5" ? (button_to 'Down', list_task_down_path(@list, task), method: :put ) : "" %>
+      </div>
+    </div>
+  <% end %>
+</div>
